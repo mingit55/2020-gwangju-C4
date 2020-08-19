@@ -43,6 +43,16 @@ class ActionController {
             echo $item->nm . " 업로드 완료<br>";
         }
     }
+
+    // 축제 이미지 보여주기
+    function festivalImage($dirname, $filename){
+        header("Content-Type: image/jpg");
+        $filePath = FIMAGE."/$dirname/$filename";
+        if(is_file($filePath)){
+            readfile($filePath);
+        }
+    }
+
     
     // 로그인
     function login(){
@@ -92,8 +102,8 @@ class ActionController {
                     VALUES (?, ?, ?, ?, ?, ?, ?)", [$no, $name, $location, $area, $period, $start_date, $end_date]);
         $fid = DB::lastInsertId();
         $imagePath = "/festivalImages/". str_pad($fid, 3, "0", STR_PAD_LEFT) . "_" . $no;
-        if(!is_dir(ROOT.$imagePath)){
-            mkdir(ROOT.$imagePath);
+        if(!is_dir(dirname(ROOT).$imagePath)){
+            mkdir(dirname(ROOT).$imagePath);
         }
         
         DB::query("UPDATE festivals SET imagePath = ? WHERE id = ?", [$imagePath, $fid]);
@@ -107,10 +117,11 @@ class ActionController {
             $tmpname = $images['tmp_name'][$i];
             $filename = $i. "_". time() . $extname;
             
-            move_uploaded_file($tmpname, ROOT.$imagePath."/$filename");
+            move_uploaded_file($tmpname, dirname(ROOT).$imagePath."/$filename");
             DB::query("INSERT INTO images(fid, local_name, origin_name) VALUES (?, ?, ?)", [$fid, $filename, $name]);
         }
 
+        exit;
         go("/festivals", "축제가 등록되었습니다.");
     }
 
@@ -163,7 +174,7 @@ class ActionController {
             $tmpname = $images['tmp_name'][$i];
             $filename = $i. "_". time() . $extname;
             
-            move_uploaded_file($tmpname, ROOT.$festival->imagePath."/$filename");
+            move_uploaded_file($tmpname, dirname(ROOT).$festival->imagePath."/$filename");
             DB::query("INSERT INTO images(fid, local_name, origin_name) VALUES (?, ?, ?)", [$festival->id, $filename, $name]);
         }
 

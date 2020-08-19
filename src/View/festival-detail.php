@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="col-lg-4">  
-            <?php if(count($images) == 0  || !is_file(ROOT. $festival->imagePath."/".$images[0]->local_name)):?>
+            <?php if(count($images) == 0  || !is_fimage($festival->imagePath, $images[0]->local_name)):?>
                 <img src="/resources/images/no-image.jpg" alt="축제 이미지" class="fit-cover hx-300">
             <?php else: ?>
                 <img src="<?=$festival->imagePath?>/<?=$images[0]->local_name?>" alt="축제 이미지" class="fit-cover hx-300">
@@ -55,7 +55,7 @@
         <?php if(count($images) > 0):?>
             <?php foreach($images as $image): ?>
                 <div class="col-lg-4 mb-4">
-                    <?php if(!is_file(ROOT. $festival->imagePath."/".$image->local_name)):?>
+                    <?php if(!is_fimage($festival->imagePath, $image->local_name)):?>
                         <img src="/resources/images/no-image.jpg" alt="축제 이미지" class="fit-cover hx-300">
                     <?php else:?>
                         <img src="<?=$festival->imagePath?>/<?=$image->local_name?>" alt="축제 이미지" class='fit-cover hx-300'>

@@ -22,6 +22,7 @@ Router::get("/open-api", "PageController@openApi");
  * 동작
  */
 Router::get("/init/festivals", "ActionController@initFestivals", "user");
+Router::get("/festivalImages/{dirname}/{filename}", "ActionController@festivalImage");
 Router::post("/login", "ActionController@login");
 Router::get("/logout", "ActionController@logout", "user");
 Router::post("/insert/festivals", "ActionController@insertFestival", "user");

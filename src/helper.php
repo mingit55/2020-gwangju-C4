@@ -84,3 +84,8 @@ function pager($data){
 
     return (object)compact("data", "page", "start", "end", "prev", "prevPage", "next", "nextPage");
 }
+
+function is_fimage($dirname, $filename){
+    $filePath = dirname(ROOT)."$dirname/$filename";
+    return is_file($filePath);
+}
